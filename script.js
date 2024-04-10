@@ -12,57 +12,66 @@
 
 // Global Variables go here
 
-function setup(){
-  // this function will run once
-  createCanvas(600, 400); // create a 600 x 400 pixel drawing canvas
-
-
+// Define the constructor function for Gnome objects
+function Gnome(tempX, tempY) {
+  // Initialize properties
+  this.x = tempX;
+  this.y = tempY;
+  this.scale = 1; // Default scale
 }
 
-function draw(){
-  background(200); //light gray background
-  myShape(width / 2, height / 2, 1);
+// Define methods for Gnome objects
+Gnome.prototype.display = function() {
+  push(); // Save current drawing style
+  translate(this.x, this.y); // Move the origin point
+  scale(this.scale); // Scale the gnome
 
-    
-    myShape(width / 4, height / 4, 0.8);
-  
-   
-    myShape(width * 3 / 4, height * 3 / 4, 1.2);
-}
-
-function myShape(x, y, s) {
-  // make this function more interesting
-  push(); // make a separate layer
-  translate(x, y); // move the origin point
-  scale(s);
-    // Body
-  fill(0, 0, 153);
-  ellipse(0, 120, 150, 200); 
-  // Head
-  fill(255, 204, 153);
-  ellipse(0, 0, 100, 120); 
-
-  // Eyes
-  fill(0);
-  ellipse(-30, -20, 20, 20); 
-  ellipse(30, -20, 20, 20); 
-  // Nose
-  fill(255, 102, 102);
-  triangle(0, 0, -10, 20, 10, 20); 
-
-  // Mouth
-  noFill();
+  // Draw gnome
+  fill(0, 0, 153); // Body
+  ellipse(0, 120, 150, 200);
+  fill(255, 204, 153); // Head
+  ellipse(0, 0, 100, 120);
+  fill(0); // Eyes
+  ellipse(-30, -20, 20, 20);
+  ellipse(30, -20, 20, 20);
+  fill(255, 102, 102); // Nose
+  triangle(0, 0, -10, 20, 10, 20);
+  noFill(); // Mouth
   stroke(255, 102, 102);
-  arc(0, 20, 40, 20, 0, PI); 
-
-  // Hat
-  fill(0);
-  rect(-50, -80, 100, 50, 20); 
+  arc(0, 20, 40, 20, 0, PI);
+  fill(0); // Hat
+  rect(-50, -80, 100, 50, 20);
   fill(255, 0, 0);
-  rect(-30, -130, 60, 70, 20); 
+  rect(-30, -130, 60, 70, 20);
 
-  pop(); // restore previous drawing state
+  pop(); // Restore previous drawing style
+};
+
+Gnome.prototype.move = function() {
+  // Move the gnome randomly
+  this.x += random(-2, 2);
+  this.y += random(-2, 2);
+};
+
+// Create an array to contain instances of Gnome objects
+var gnomes = [];
+
+function setup() {
+  createCanvas(600, 400);
+  // Initialize the array with 10 gnome objects
+  for (var i = 0; i < 10; i++) {
+    gnomes.push(new Gnome(random(width), random(height)));
+  }
 }
 
+function draw() {
+  background(200);
+  // Display and move each gnome object
+  for (var i = 0; i < gnomes.length; i++) {
+    gnomes[i].move();
+    gnomes[i].display();
+  }
 }
+
+
 
