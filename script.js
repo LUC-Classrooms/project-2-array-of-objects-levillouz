@@ -10,21 +10,24 @@
  * Use the draw() function to display and move your objects independently on the canvas.
 ***/
 
-// Global Variables go here
+var obj1, obj2// Global Variables go here
+var objects = new Array(10); // the argument to Array() defines its size
 
-// Define the constructor function for Gnome objects
-function Gnome(tempX, tempY) {
-  // Initialize properties
-  this.x = tempX;
-  this.y = tempY;
-  this.scale = 1; // Default scale
+function setup(){
+  createCanvas(320, 240);
+  obj1 = new MyClass(100, 100);
+  obj2 = new MyClass(200, 100);
+  for(var i = 0; i < objects.length; i++) {
+    objects[i] = new MyClass(random(width), random(height));
+    }
+  }
 }
-
-// Define methods for Gnome objects
-Gnome.prototype.display = function() {
-  push(); // Save current drawing style
-  translate(this.x, this.y); // Move the origin point
-  scale(this.scale); // Scale the gnome
+function draw(){
+  background(200);
+  for(var i = 0; i < objects.length; i++){
+    objects[i].move(); // each time through the loop, move the next object in the array
+    objects[i].display(); // call the display method for each object (0 - 9)
+  }
 
   // Draw gnome
   fill(0, 0, 153); // Body
@@ -43,35 +46,14 @@ Gnome.prototype.display = function() {
   rect(-50, -80, 100, 50, 20);
   fill(255, 0, 0);
   rect(-30, -130, 60, 70, 20);
-
-  pop(); // Restore previous drawing style
-};
-
-Gnome.prototype.move = function() {
-  // Move the gnome randomly
-  this.x += random(-2, 2);
-  this.y += random(-2, 2);
-};
-
-// Create an array to contain instances of Gnome objects
-var gnomes = [];
-
-function setup() {
-  createCanvas(600, 400);
-  // Initialize the array with 10 gnome objects
-  for (var i = 0; i < 10; i++) {
-    gnomes.push(new Gnome(random(width), random(height)));
-  }
+  
+  obj1.move(); // move object 1 (obj1)
+  obj1.display(); // display obj1 on screen
+  obj2.move();
+  obj2.display();
 }
 
-function draw() {
-  background(200);
-  // Display and move each gnome object
-  for (var i = 0; i < gnomes.length; i++) {
-    gnomes[i].move();
-    gnomes[i].display();
-  }
-}
+
 
 
 
